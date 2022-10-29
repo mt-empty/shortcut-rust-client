@@ -57,3 +57,5 @@ Cargo.lock
 # Custom rules (everything added below won't be overriden by 'Generate .gitignore File' if you use 'Update' option)
 
 other/
+.vscode/launch.json
+shortcut-rust-client.code-workspace
