@@ -1,6 +1,6 @@
 # Shortcut
 
-A command line client for [shortcut-pages](https://github.com/mt-empty/shortcut-pages), written in rust.
+A command line client for [shortcut-pages](https://github.com/mt-empty/shortcut-pages), written in Rust.
 
 ![](https://github.com/mt-empty/shortcut-c-client/blob/master/shortcut.gif)
 
@@ -8,29 +8,29 @@ A command line client for [shortcut-pages](https://github.com/mt-empty/shortcut-
 ## Installing
 
 Install from source:
+```bash
+sudo curl -sSL https://github.com/mt-empty/shortcut-rust-client/releases/latest/download/shortcut -o /usr/local/bin/shortcut && \
+  sudo chmod +x /usr/local/bin/shortcut && \
+  sudo /usr/local/bin/shortcut --update 
 ```
-...
-```
-
-Install non-GUI cheatsheet pages(extra):
-```
-...
-```
-
-The default prefix for installation is `/usr/local/bin`. Pages are located in `/opt`, these can be overwritten in the makefile or simply pass the variables when making `make PREFIX=YOUR_PATH DEST_DIR=YOUR_PATH install`.
-
-
-### Requirements
 
 
 ## Usage
 
 ```
-usage: shortcut [OPTION] page
+A fast shortcut client, pages are located at /tmp/shortcut/pages/
 
-available commands:
-    -V, --version           print verbose output
-    -h, --help              print this help and exit
+Usage: shortcut [OPTIONS] <PROGRAM_NAME>
+
+Arguments:
+  <PROGRAM_NAME>  The program name, e.g. `firefox`
+
+Options:
+  -l, --list       List all available shortcut pages in the cache
+  -u, --update     Update the local cache
+  -n, --no-colour  Remove colour from the output
+  -h, --help       Print help information
+  -V, --version    Print version information
 ```
 
 
