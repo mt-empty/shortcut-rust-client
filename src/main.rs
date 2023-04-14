@@ -31,7 +31,7 @@ const ANSI_BOLD_OFF: &str = "\x1b[22m";
 struct Cli {
     /// The program name, e.g. `firefox`
     #[arg()]
-    program_name: String,
+    program_name: Option<String>,
 
     /// List all available shortcut pages in the cache
     #[arg(short, long, action = clap::ArgAction::SetTrue)]
@@ -49,8 +49,6 @@ struct Cli {
 fn main() {
     let cli = Cli::parse();
 
-    //TODO, validate program_name
-    let program_name = cli.program_name.trim().to_owned();
     let is_colour_on = !cli.no_colour.unwrap();
     if cli.update.unwrap() {
         match update() {
@@ -62,17 +60,28 @@ fn main() {
         }
     } else if cli.list.unwrap() {
         list_shortcuts();
-    } else if program_name != "" {
-        get_shortcut_page(&program_name, is_colour_on);
     } else {
-        eprintln!("No valid argument specified");
-        exit(1)
+        match cli.program_name.map(|s| s.trim().to_owned()) {
+            Some(program_name) if !program_name.is_empty() => {
+                // let program_name = program_name.trim().to_owned();
+                get_shortcut_page(&program_name, is_colour_on);
+            }
+            _ => {
+                eprintln!("No valid argument specified");
+                exit(1)
+            }
+        }
     }
 }
 
 fn has_write_permission(path: PathBuf) -> Result<bool, std::io::Error> {
-    let metadata = fs::metadata(path)?;
-    Ok(!metadata.permissions().readonly())
+    match fs::create_dir_all(path.to_owned()) {
+        Ok(()) => {
+            let metadata = fs::metadata(path)?;
+            Ok(!metadata.permissions().readonly())
+        }
+        Err(error) => Err(error),
+    }
 }
 
 fn update() -> Result<()> {
